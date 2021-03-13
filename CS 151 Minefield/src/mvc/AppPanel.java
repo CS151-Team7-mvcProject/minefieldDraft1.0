@@ -17,7 +17,7 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 	protected View view;
 	protected Model model;
 	protected JPanel controlPanel;
-//	protected JPanel buttonPanel;
+	protected JPanel buttonPanel;
 	protected JPanel boardPanel;
 	protected JFrame frame;
 
@@ -37,7 +37,7 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 
 		
 		controlPanel = new JPanel();
-//		buttonPanel  = new JPanel();
+		buttonPanel  = new JPanel();
 		frame 		 = new JFrame();
 
 		//Setup for the JFrame
@@ -53,17 +53,17 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 		controlPanel.setBackground(factory.getBackgroundColor(0));
 		view.setBackground(factory.getBackgroundColor(1));
 
-//		//Creates the layout for the button panel.
-//		GridLayout layout = new GridLayout
-//				(factory.getButtonGridSize(0),
-//						factory.getButtonGridSize(1));
-//		layout.setHgap(factory.getButtonGap(0));
-//		layout.setVgap(factory.getButtonGap(1));
-//
-//		//Sets ButtonPanel layout and adds to ControlPanel
-//		buttonPanel.setLayout(layout);
-//		buttonPanel.setBackground(controlPanel.getBackground());
-//		controlPanel.add(buttonPanel);
+		//Creates the layout for the button panel.
+		GridLayout layout = new GridLayout
+				(factory.getButtonGridSize(0),
+						factory.getButtonGridSize(1));
+		layout.setHgap(factory.getButtonGap(0));
+		layout.setVgap(factory.getButtonGap(1));
+
+		//Sets ButtonPanel layout and adds to ControlPanel
+		buttonPanel.setLayout(layout);
+		buttonPanel.setBackground(controlPanel.getBackground());
+		controlPanel.add(buttonPanel);
 
 		//Adds black border around view.
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -110,13 +110,13 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 			String cmmd = e.getActionCommand();
 
 			//SAVE
-			if (cmmd == "Save") 	   {Utilities.save(model, false);}
+			if 		(cmmd == "Save") 	{Utilities.save(model, false);}
 
 			//SAVEAS
-			else if (cmmd == "SaveAs") {Utilities.save(model, true);} 
+			else if (cmmd == "SaveAs")  {Utilities.save(model, true);} 
 
 			//OPEN
-			else if (cmmd == "Open")   {Utilities.open(model);}
+			else if (cmmd == "Open")    {Utilities.open(model);}
 
 			//QUIT
 			else if (cmmd == "Quit")  {Utilities.quit(model);}

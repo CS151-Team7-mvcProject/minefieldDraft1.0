@@ -35,6 +35,7 @@ public class Minefield extends Model {
 	}
 	
 	
+	//Defining all movement commands for Sgt. Rock
 	public void north() {
 		
 	}

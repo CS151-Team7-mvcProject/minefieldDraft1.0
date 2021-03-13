@@ -87,7 +87,7 @@ public class MinefieldFactory implements AppFactory {
 	//************************************************************************
 	//Change game settings (grid size/mine percent)
 	//************************************************************************
-
+	
 	
 	//************************************************************************
 	//Set the intended interaction for buttons defined above.
@@ -121,7 +121,7 @@ public class MinefieldFactory implements AppFactory {
 		case "SW":{
 			return new MoveCommand(model, "SW");
 		}
-//		case "Some new command":{
+//		case "Change Color":{
 //		}
 		}
 		return null;

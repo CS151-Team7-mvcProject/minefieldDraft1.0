@@ -1,3 +1,4 @@
+//Samantha -- test 3/15
 package minefieldMVC;
 import javax.swing.*;
 import java.awt.*;

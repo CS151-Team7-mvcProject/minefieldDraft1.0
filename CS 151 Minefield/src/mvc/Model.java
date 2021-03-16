@@ -22,7 +22,7 @@ public class Model extends Bean {
     // This does the work to change the model
     public void changed() {
         unsavedChanges = true;
-        firePropertyChange("Changed", unsavedChanges, unsavedChanges);
+        firePropertyChange(null, null, null);
     }
 
     

@@ -152,7 +152,7 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		updateUI();
+		model.changed();
 	}
 
 	protected void handleException(Exception e) {

@@ -27,8 +27,8 @@ public class MinefieldFactory implements AppFactory {
 	public int    getButtonGridSize(int i)  {
 		//Set size of button grid here
 		//**************************
-		int rows = 4;
-		int cols = 2;
+		int rows = 3;
+		int cols = 3;
 		//**************************
 		int[] arr = {rows,cols};
 		return arr[i];

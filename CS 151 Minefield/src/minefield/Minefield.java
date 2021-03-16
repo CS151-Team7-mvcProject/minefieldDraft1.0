@@ -1,64 +1,36 @@
 package minefield;
 
+import java.awt.Point;
 import java.util.*;
 
 import mvc.*;
 
 public class Minefield extends Model {
-	
 	private static final long serialVersionUID = 1L;
 	
-	private int location = 1;
-	private List<Integer> locationHistory = new ArrayList<>();
+	private Point location = new Point();
+	private List<Point> locationHistory = new ArrayList<>();
 	private boolean living = true;
+	private int gridSize = 20;
 	
-	
-	public int getLocation() {
-		return location;
+	public Minefield(Point location, boolean living) {
+		super();
+		this.location = location;
+		this.living = living;
 	}
+	
+	public Minefield() {
+		
+	}
+	
+	public int getGridSize() {return gridSize;}
+	public Point getLocation() {return location;}
+	public boolean getIsLiving() {return living;}
+	public List<Point> getLocationHistory() {return locationHistory;}
 
-	public void setLocation(int i) {
-		location = i;
-	}
-
-	public boolean getIsLiving() {
-		return living;
-	}
-	public void setIsLiving(boolean bool) {
-		living = bool;
-	}
-	public List<Integer> getLocationHistory() {
-		return locationHistory;
-	}
-	public void addToLocationHistory(int i) {
-		locationHistory.add(i);
-	}
-	
-	
-	//Defining all movement commands for Sgt. Rock
-	public void north() {
-		
-	}
-	public void east() {
-
-	}
-	public void west() {
-		
-	}
-	public void south() {
-		
-	}
-	public void northEast() {
-		
-	}
-	public void northWest() {
-		
-	}
-	public void southEast() {
-		
-	}
-	public void southWest() {
-		
-	}
+	public void setLocation(Point p) {location = p;}
+	public void setIsLiving(boolean bool) {living = bool;}
+	public void addToLocationHistory(Point p) {locationHistory.add(p);}
+	public void change() {changed();}
 
 }

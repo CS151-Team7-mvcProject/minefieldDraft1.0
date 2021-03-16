@@ -1,4 +1,4 @@
-package minefieldMVC;
+package minefieldMasterBranch;
 
 import mvc.*;
 
@@ -8,13 +8,11 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 public class MinefieldPanel extends AppPanel {
-	
 	private static final long serialVersionUID = 1L;
+	
 	//Panel is the Controller: executes user commands by updating the model
 	
-	
-	
-	
+
 	//Define how many buttons you would like on the button panel here.
     private JButton N,
     				E,

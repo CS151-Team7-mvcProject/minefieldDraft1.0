@@ -1,10 +1,11 @@
-package minefieldMVC;
+package minefieldMasterBranch;
 import javax.swing.*;
 import java.awt.*;
 
 public class BoardPanel extends JPanel {
-
-	Tile[][] board = new Tile[10][10];
+	private static final long serialVersionUID = 1L;
+	
+	Tile[][] board = new Tile[20][20];
 
 	//will generate mines in the board
 	public void generateMines() {

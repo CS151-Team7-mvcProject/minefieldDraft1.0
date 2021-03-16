@@ -1,4 +1,4 @@
-package minefieldMVC;
+package minefieldMasterBranch;
 
 import java.awt.*;
 import java.util.ArrayList;

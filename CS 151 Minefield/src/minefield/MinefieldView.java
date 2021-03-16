@@ -1,4 +1,4 @@
-package minefieldMasterBranch;
+package minefield;
 
 import java.awt.*;
 import java.util.ArrayList;

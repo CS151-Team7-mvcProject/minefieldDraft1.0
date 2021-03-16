@@ -1,4 +1,4 @@
-package minefieldMasterBranch;
+package minefield;
 
 import javax.swing.*;
 

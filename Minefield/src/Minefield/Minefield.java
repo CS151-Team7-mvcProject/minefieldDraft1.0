@@ -10,8 +10,8 @@ public class Minefield extends Model {
     public static final int gridSize = 20;
 
     private Grid[][] board;
-    //    private boolean[][] grid;
-    //    private boolean[][] gridLocations;
+    private boolean[][] locations;
+    // CURRENT LOCATIONS
     private int locationRowY;
     private int locationColX;
 
@@ -19,27 +19,35 @@ public class Minefield extends Model {
         // Starting location
         locationRowY = 0;
         locationColX = 0;
+        locations = new boolean[gridSize][gridSize];
         // Initialize board
         board = new Grid[gridSize][gridSize];
         int count = 0;
         Random gen = new Random();
         int row;
         int col;
-        int max = 19;
-        int min = 0;
         for (int i = 0; i < gridSize; i++) {
             for (int j = 0; j < gridSize; j++) {
                 board[i][j] = new Grid(this, i, j, false);
-                if (count < 20) {
-                    row = gen.nextInt(max - min) + min;
-                    col = gen.nextInt(max - min) + min;
-                    if (!board[i][j].isMined() && board[row][col] != null) {
+                locations[i][j] = false;
+            }
+        }
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                if (count <= 20) {
+                    row = gen.nextInt(20);
+                    col = gen.nextInt(20);
+                    if (!board[i][j].isMined()) {
                         board[row][col].setIsMined(true);
                         count++;
                     }
+                } else {
+                    break;
                 }
             }
         }
+        // Starting point
+        locations[0][0] = true;
     }
 
     public void nw() {
@@ -77,5 +85,9 @@ public class Minefield extends Model {
     // Helper methods
     public Grid getGrid(int row, int col) {
         return board[row][col];
+    }
+
+    public Grid[][] getBoard() {
+        return board;
     }
 }

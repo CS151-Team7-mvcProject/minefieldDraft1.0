@@ -7,8 +7,6 @@ public interface AppFactory {
 
     //Settings for the application's frame
     public int    getFrameSize(int i);
-    public int    getButtonGridSize(int i);
-    public int    getButtonGap(int i);
     public Color  getBackgroundColor(int i);
     public String getTitle();
     

@@ -1,15 +1,17 @@
-package minefield;
+package minefieldView;
 
 import java.awt.Color;
 
+import minefieldModel.Player;
+import minefieldModel.MoveCommand;
 import mvc.*;
 
 public class MinefieldFactory implements AppFactory {
 	public Model makeModel() {
-		return new Minefield();
+		return new Player();
 	}
 	public View makeView(Model m) {
-		return new MinefieldView((Minefield) m);
+		return new MinefieldView((Player) m);
 	}
 
 	//************************************************************************
@@ -22,25 +24,6 @@ public class MinefieldFactory implements AppFactory {
 		int height = 450;
 		//**************************
 		int[] arr = {width,height};
-		return arr[i];
-	}
-	public int    getButtonGridSize(int i)  {
-		//Set size of button grid here
-		//**************************
-		int rows = 3;
-		int cols = 3;
-		//**************************
-		int[] arr = {rows,cols};
-		return arr[i];
-	}
-	public int    getButtonGap(int i)       {
-		//Set size of gap between buttons here
-		//**************************
-		int hGap = 60;
-		int vGap = 60;
-		//**************************
-		
-		int[] arr = {hGap,vGap};
 		return arr[i];
 	}
 	public Color  getBackgroundColor(int i) {
@@ -121,7 +104,7 @@ public class MinefieldFactory implements AppFactory {
 		case "SW":{
 			return new MoveCommand(model, "SW");
 		}
-//		case "Change Color":{
+//		case "Some new case":{
 //		}
 		}
 		return null;

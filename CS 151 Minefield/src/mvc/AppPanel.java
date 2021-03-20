@@ -1,8 +1,13 @@
+/*
+ * Note: All custom variables come from implementing factory
+ * class. No custom variable should need to be changed in this
+ * class. All additional panels can be added through the creation
+ * of new custom panel classes.
+ */
 package mvc;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,23 +15,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class AppPanel extends JPanel implements PropertyChangeListener, ActionListener {
-
+	
 	private static final long serialVersionUID = 1L;
 
 	protected AppFactory factory;
+	protected JPanel controlPanel;
 	protected View view;
 	protected Model model;
-	protected JPanel controlPanel;
-	protected JPanel buttonPanel;
-	protected JPanel boardPanel;
 	protected JFrame frame;
 
 	public static int FRAME_WIDTH;
 	public static int FRAME_HEIGHT;
-
-
-	//Creates all of the frames and panels needed to display the application.
-	//Gets all custom variables from implementing Factory class.
+	
+	
+	//Creates JFrame, JPanel, and Menu Bar for Application Panel
 	public AppPanel(AppFactory factory) {
 		this.factory = factory;
 		model = factory.makeModel();
@@ -37,7 +39,6 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 
 		
 		controlPanel = new JPanel();
-		buttonPanel  = new JPanel();
 		frame 		 = new JFrame();
 
 		//Setup for the JFrame
@@ -47,23 +48,9 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		setLayout((new GridLayout(1, 2)));
 		add(controlPanel);
-		add(view);
-
-		//Setting background color for all panels
 		controlPanel.setBackground(factory.getBackgroundColor(0));
+		add(view);
 		view.setBackground(factory.getBackgroundColor(1));
-
-		//Creates the layout for the button panel.
-		GridLayout layout = new GridLayout
-				(factory.getButtonGridSize(0),
-						factory.getButtonGridSize(1));
-		layout.setHgap(factory.getButtonGap(0));
-		layout.setVgap(factory.getButtonGap(1));
-
-		//Sets ButtonPanel layout and adds to ControlPanel
-		buttonPanel.setLayout(layout);
-		buttonPanel.setBackground(controlPanel.getBackground());
-		controlPanel.add(buttonPanel);
 
 		//Adds black border around view.
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -75,9 +62,7 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 
 	}
 
-
 	//Creates the menu bar for the frame of the application.
-	//Gets all subtitle names from implementing Factory class.
 	protected JMenuBar createMenuBar() {
 		JMenuBar result = new JMenuBar();
 
@@ -101,10 +86,10 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 		return result;
 	}
 
-
 	//Defines the action performed based on the user input.
 	//If input is not one of the basic utility commands, an
-	//appropriate command object is created.
+	//appropriate command object is created, created from
+	//implementing factory class.
 	public void actionPerformed(ActionEvent e) {
 		try {
 			String cmmd = e.getActionCommand();
@@ -144,15 +129,12 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
 		}
 	}
 
-
-
-
 	public void display() {
 		frame.setVisible(true);
 	}
 
 	public void propertyChange(PropertyChangeEvent evt) {
-		model.changed();
+		
 	}
 
 	protected void handleException(Exception e) {

@@ -1,15 +1,13 @@
 package mvc;
 
+
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class View extends JPanel implements PropertyChangeListener {
-	
-	private static final long serialVersionUID = 1L;
-	
-	
-	protected Model model;
+
+    protected Model model;
 
     public View(Model model) {
         this.model = model;
@@ -17,11 +15,13 @@ public class View extends JPanel implements PropertyChangeListener {
     }
 
     public void update(Model m) {
-        this.removePropertyChangeListener(this);
-        m.initSupport(); // this calls the bean's initSupport method
-        model = m;
-        model.addPropertyChangeListener(this);
+        this.model.removePropertyChangeListener(this);
+        this.model = m;
+        this.model.initSupport(); // this calls the bean's initSupport method
+        this.model.addPropertyChangeListener(this);
+        repaint();
     }
+
 
     // Tells you model has been modify
     public void propertyChange(PropertyChangeEvent evt) {

@@ -22,6 +22,7 @@ public class MoveCommand extends Command {
 		p.setLocation(x,y);
 		m.addToLocationHistory(p);
 		m.setLocation(p);
+		m.checkStatus();
 		m.change();
 		System.out.println("Location is:" + m.getLocation().getX() + " " + m.getLocation().getY());
 	}

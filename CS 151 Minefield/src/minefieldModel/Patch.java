@@ -8,7 +8,7 @@ public class Patch extends Point{
 	private boolean isVisited,
 					isActive,
 					isDangerous;
-	private int     countNeighbors;
+	private int     neighborCount;
 	private Point   location;
 	
 	
@@ -17,7 +17,7 @@ public class Patch extends Point{
 		isVisited = false;
 		isActive = false;
 		isDangerous = false;
-		countNeighbors = 0;
+		neighborCount = 0;
 	}
 
 	//Helper methods
@@ -30,8 +30,8 @@ public class Patch extends Point{
 	public boolean isDangerous() {return isDangerous;}
 	public void setIsDangerous(boolean isDangerous) {this.isDangerous = isDangerous;}
 
-	public int getCountNeighbors() {return countNeighbors;}
-	public void setCountNeighbors(int countNeighbors) {this.countNeighbors = countNeighbors;}
+	public int getNeighborCount() {return neighborCount;}
+	public void setNeighborCount(int countNeighbors) {this.neighborCount = countNeighbors;}
 	
 	public Point getLocation() {return location;}
 	public void setLocation(Point p) {location = p;}

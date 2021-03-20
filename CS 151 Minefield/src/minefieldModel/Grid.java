@@ -6,6 +6,7 @@ import java.util.*;
 public class Grid {
 	
 	//Instance variables
+	//TODO - Add way to edit gridSize & percentMined from menu bar
 	private int gridSize = 20;
 	private int percentMined = 5;
 
@@ -42,6 +43,24 @@ public class Grid {
         		i++;
         	}
 		}
+		
+		//Counts number of dangerous neighbors next to the dangerous squares
+		for(Patch p: mineLocations) {
+			int r = (int) p.getX();
+			int c = (int) p.getY();
+			for(int row = r-1; row <= r+1; row++) {
+				for(int col = c-1; col <= c+1; col++) {
+					try {
+						grid[row][col].setNeighborCount(grid[row][col].getNeighborCount() + 1);
+					} 
+					catch(Exception e) {
+						//Do nothing, out of bounds.
+					}
+				}
+			}
+		}
+		
+		
 	}//End Grid constructor
 
 	
@@ -54,5 +73,6 @@ public class Grid {
 	public void setPercentMined(int i) {percentMined = i;}
 	
     public Patch[][] getGrid() {return grid;}
+    public Patch getPatchInGrid(int x, int y) {return grid[x][y];}
     public ArrayList<Patch> getMineLocations() {return mineLocations;}
 }

@@ -27,6 +27,10 @@ public class Grid {
         isExposed = false;
     }
 
+    public boolean isWinningSquare() {
+        return isWinningSquare;
+    }
+
     public void setIsExposed(boolean bool) {
         isExposed = bool;
     }

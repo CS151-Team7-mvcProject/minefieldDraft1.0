@@ -28,8 +28,15 @@ public class MinefieldView extends mvc.View {
         for (int i = 0; i < SIDES; i++) {
             for (int j = 0; j < SIDES; j++) {
                 if (i == 0 && j == 0) {
-                    board[i][j] = new JLabel("?");
+                    int nearbyMines = minefield.getNearbyMines();
+                    board[i][j] = new JLabel(String.valueOf(nearbyMines));
                     board[i][j].setBorder(BorderFactory.createLineBorder(Color.WHITE, GAP));
+                    board[i][j].setBackground(CELL_COLOR);
+                    board[i][j].setPreferredSize(prefSize);
+                    add(board[i][j]);
+                } else if (i == 19 && j == 19) {
+                    board[i][j] = new JLabel("?");
+                    board[i][j].setBorder(BorderFactory.createLineBorder(Color.GREEN, GAP));
                     board[i][j].setBackground(CELL_COLOR);
                     board[i][j].setPreferredSize(prefSize);
                     add(board[i][j]);
@@ -43,7 +50,6 @@ public class MinefieldView extends mvc.View {
                     board[i][j].setBackground(CELL_COLOR);
                     board[i][j].setPreferredSize(prefSize);
                     add(board[i][j]);
-
                 }
             }
         }

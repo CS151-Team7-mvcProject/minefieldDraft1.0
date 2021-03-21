@@ -3,7 +3,9 @@ package minefieldMVC;
 import mvc.Command;
 import mvc.Model;
 
-public class MoveCommand extends Command {
+import java.io.Serializable;
+
+public class MoveCommand extends Command implements Serializable {
 
     String heading;
 

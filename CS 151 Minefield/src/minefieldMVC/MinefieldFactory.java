@@ -5,7 +5,9 @@ import mvc.Command;
 import mvc.Model;
 import mvc.View;
 
-public class MinefieldFactory implements AppFactory {
+import java.io.Serializable;
+
+public class MinefieldFactory implements AppFactory, Serializable {
     public Model makeModel() {
         return new Minefield();
     }
@@ -59,48 +61,14 @@ public class MinefieldFactory implements AppFactory {
 //	}
 
     public String getTitle() {
-        //Set the frame Title here
-        //**************************
-        return "Minefield 1.0";
-        //**************************
+        return "Minefield";
     }
-//
-//    //************************************************************************
-//    //Set the name of the buttons in the File, Edit and Help menu bar buttons.
-//    //************************************************************************
-//    public String[] getFileTitles() {
-//        //Declare all values you want to show in the "File" menu
-//        //*************************************************************
-//        return new String[]{"New", "Save", "Save As", "Open", "Quit"};
-//        //*************************************************************
-//    }
 
     public String[] getEditCommands() {
-        //Declare all values you want to show in the "Edit" menu
-        //********************************************************
         return new String[]{"N", "E", "W", "S", "NE", "NW", "SE", "SW"};
-        //********************************************************
     }
 
-//    public String[] getHelp() {
-//        //Declare all values you want to show in the "Help" menu
-//        //************************************
-//        return new String[]{"Help", "About"};
-//        //************************************
-//    }
-
-    //************************************************************************
-    //Change game settings (grid size/mine percent)
-    //************************************************************************
-
-
-    //************************************************************************
-    //Set the intended interaction for buttons defined above.
-    //************************************************************************
     public Command makeEditCommand(Model model, String cmmd) {
-        //Declare interaction for all values outside of predefined methods.
-        //Create a new "____"Command class to pass the command to for execution.
-
         switch (cmmd) {
             case "N": {
                 return new MoveCommand(model, "N");
@@ -126,21 +94,16 @@ public class MinefieldFactory implements AppFactory {
             case "SW": {
                 return new MoveCommand(model, "SW");
             }
-//		case "Change Color":{
-//		}
         }
         return null;
     }
 
-    //************************************************************************
     //Set the Help and About messages below.
-    //************************************************************************
     public String[] getHelp() {
         return new String[]{
-                //*******************************************************************
                 "You are a minesweeper starting at the top left square, \n" +
                         "your goal is to make it to the bottom right square, while \n" +
-                        "avoding mines on the field. \n \n" +
+                        "avoiding mines on the field. \n \n" +
 
                         "You can move around the field in the 8 cardinal and \n" +
                         "intermediate directions. Each press of a button will move \n" +
@@ -151,17 +114,9 @@ public class MinefieldFactory implements AppFactory {
                         "a mine the game is over. \n \n" +
 
                         "Note: You cannot move off of the grid or wrap around the field."};
-        //*******************************************************************
     }
 
     public String about() {
-        return null;
-    }
-
-    public String getAbout() {
-        //***************************************************************
         return "Minefield version 1.0. Copyright 2021 by SGSZRP Designs";
-        //***************************************************************
     }
-
 }

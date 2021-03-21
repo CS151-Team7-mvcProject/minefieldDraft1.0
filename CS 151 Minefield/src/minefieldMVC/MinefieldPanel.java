@@ -4,12 +4,11 @@ import mvc.AppFactory;
 import mvc.AppPanel;
 
 import javax.swing.*;
+import java.io.Serializable;
 
-public class MinefieldPanel extends AppPanel {
+public class MinefieldPanel extends AppPanel implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    //Panel is the Controller: executes user commands by updating the model
-
 
     //Define how many buttons you would like on the button panel here.
     private JButton N,

@@ -1,15 +1,16 @@
 package minefieldMVC;
 
-public class Grid {
+import mvc.Bean;
 
-    private int X;
-    private int Y;
+public class Grid extends Bean {
+
+    private int X;                   // col position
+    private int Y;                   // row position
     private Minefield minefield;
-    private boolean isMined;
-    private int nearbyMines;
-    private boolean isWinningSquare;
-    private boolean isPersonOn;
-    private boolean isExposed;
+    private boolean isMined;         // is this grid mined?
+    private int nearbyMines;         // # of nearby mines
+    private boolean isWinningSquare; // is this winning square?
+    private boolean isExposed;       // is this square exposed?
 
     public Grid(Minefield minefield, int row, int col, boolean isMined) {
         this.minefield = minefield;
@@ -17,17 +18,15 @@ public class Grid {
         this.X = col;
         this.isMined = isMined;
         nearbyMines = -1;
-        // sets isWinningSquare
-        if (Y == 19 && X == 19) {
+        if (Y == 19 && X == 19) {       // Sets winning square at end of board
             isWinningSquare = true;
         } else {
             isWinningSquare = false;
         }
-        isPersonOn = this.isPersonOn(X, Y);
         isExposed = false;
     }
 
-    public boolean isWinningSquare() {
+    public boolean getIsWinningSquare() {
         return isWinningSquare;
     }
 
@@ -39,6 +38,7 @@ public class Grid {
         return isExposed;
     }
 
+    // Calculates the number of nearby mines
     public int calcNearbyMines() {
         nearbyMines = 0;
         if (Y - 1 >= 0) { // N
@@ -82,13 +82,6 @@ public class Grid {
             }
         }
         return nearbyMines;
-    }
-
-    public boolean isPersonOn(int colX, int rowY) {
-        if (this.X == colX && this.Y == rowY) {
-            return true;
-        }
-        return false;
     }
 
     // Setter methods

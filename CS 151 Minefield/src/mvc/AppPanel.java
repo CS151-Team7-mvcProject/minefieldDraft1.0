@@ -6,13 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 // how to generalize? are we suppose to have this?
-public class AppPanel extends JPanel implements PropertyChangeListener, ActionListener {
+public class AppPanel extends JPanel implements PropertyChangeListener, ActionListener, Serializable {
 
     protected AppFactory factory;
     protected View view;
@@ -106,7 +103,6 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
         }
     }
 
-    // IFFY
     public void propertyChange(PropertyChangeEvent evt) {
         view.repaint();
         firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());

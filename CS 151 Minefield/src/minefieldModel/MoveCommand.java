@@ -8,7 +8,7 @@ public class MoveCommand extends Command {
 
 	String heading;
 	Player m = (Player) model;
-	Grid g = new Grid();
+	Grid g;
 	Point p;
 	int x;
 	int y;

@@ -9,26 +9,22 @@ public class Player extends Model {
 	private static final long serialVersionUID = 1L;
 	
 	//Instance variables
-	private Point location;
+	private Point location = new Point(0,0);
 	private ArrayList<Point> locationHistory = new ArrayList<>();
 	private boolean living = true;
 	private boolean won = false;
+	private Grid g = new Grid();
 	
 	//Constructors
 	public Player() {
 		super();
-		location = new Point();
-		location.setLocation(0, 0);
 	}
 
 	
 	//Checks to see if the player has either died, or won the game.
 	public void checkStatus() {
-		Grid g = new Grid();
-		ArrayList<Patch> mineLocations = g.getMineLocations();
-		
 		//TODO - Not working correctly, need to override contains?
-		if(mineLocations.contains(this.getLocation())) {
+		if(g.getMineLocations().contains(location)) {
 			this.setIsLiving(false);
 			Utilities.inform("You've died :(");
 		}

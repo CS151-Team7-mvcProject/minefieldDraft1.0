@@ -2,29 +2,27 @@ package minefieldView;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
+import javax.swing.*;
 import minefieldModel.*;
 import mvc.*;
 
 public class MinefieldView extends View {	
 	private static final long serialVersionUID = 1L;
 
+	private Player sgtRock = new Player();
+	private Grid g = new Grid();
+
 	private int SIDES;
 	private int SIDE_LENGTH = 13;
 	private int GAP = 1;
 	private static Color CELL_COLOR = Color.gray;
 
-	private Player sgtRock = new Player();
 	private JLabel[][] displayGrid = new JLabel[SIDES][SIDES];
-	private Grid g;
 
 
 	public MinefieldView(Player m) {
 		super(m);
 		sgtRock = (Player) super.model;
-		g = new Grid();
 		SIDES = g.getGridSize();
 		displayGrid = new JLabel[SIDES][SIDES];
 		
@@ -38,30 +36,30 @@ public class MinefieldView extends View {
 			for (int j = 0; j < SIDES; j++) {
 				if (i == 0 && j == 0) {
 					int nearbyMines = g.getPatchInGrid(i, j).getNeighborCount();
-					displayGrid[i][j] = new JLabel(String.valueOf(nearbyMines));
-					displayGrid[i][j].setBorder(BorderFactory.createLineBorder(Color.WHITE, GAP));
-					displayGrid[i][j].setBackground(CELL_COLOR);
-					displayGrid[i][j].setPreferredSize(prefSize);
-					add(displayGrid[i][j]);
+					displayGrid[j][i] = new JLabel(String.valueOf(nearbyMines), SwingConstants.CENTER);
+					displayGrid[j][i].setBorder(BorderFactory.createLineBorder(Color.WHITE, GAP));
+					displayGrid[j][i].setBackground(CELL_COLOR);
+					displayGrid[j][i].setPreferredSize(prefSize);
+					add(displayGrid[j][i]);
 				} 
 				else if (i == 19 && j == 19) {
-					displayGrid[i][j] = new JLabel("X");
-					displayGrid[i][j].setBorder(BorderFactory.createLineBorder(Color.GREEN, GAP));
-					displayGrid[i][j].setBackground(CELL_COLOR);
-					displayGrid[i][j].setPreferredSize(prefSize);
-					add(displayGrid[i][j]);
+					displayGrid[j][i] = new JLabel("X", SwingConstants.CENTER);
+					displayGrid[j][i].setBorder(BorderFactory.createLineBorder(Color.GREEN, GAP));
+					displayGrid[j][i].setBackground(CELL_COLOR);
+					displayGrid[j][i].setPreferredSize(prefSize);
+					add(displayGrid[j][i]);
 				} 
 				else {
-					displayGrid[i][j] = new JLabel("?");
-					if (g.getPatchInGrid(i,j).isDangerous()) {
-						displayGrid[i][j].setBorder(BorderFactory.createLineBorder(Color.RED, GAP));
+					displayGrid[j][i] = new JLabel("?", SwingConstants.CENTER);
+					if (g.getPatchInGrid(j,i).isDangerous()) {
+						displayGrid[j][i].setBorder(BorderFactory.createLineBorder(Color.RED, GAP));
 					} 
 					else {
-						displayGrid[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, GAP));
+						displayGrid[j][i].setBorder(BorderFactory.createLineBorder(Color.BLACK, GAP));
 					}
-					displayGrid[i][j].setBackground(CELL_COLOR);
-					displayGrid[i][j].setPreferredSize(prefSize);
-					add(displayGrid[i][j]);
+					displayGrid[j][i].setBackground(CELL_COLOR);
+					displayGrid[j][i].setPreferredSize(prefSize);
+					add(displayGrid[j][i]);
 				}
 			}
 		}

@@ -71,31 +71,37 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
         try {
             String cmmd = e.getActionCommand();
             if (cmmd == "Save") {
+                Utilities.save(model, true);
+            } else if (cmmd == "SaveAs") {
                 //String fName = Utilities.ask("File Name?");
                 String fName = Utilities.getFileName(null, false);
                 ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
                 os.writeObject(model);
                 os.close();
-            } else if (cmmd == "SaveAs") {
-                Utilities.save(model, true);
             } else if (cmmd == "Open") {
                 String fName = Utilities.getFileName(null, true);
                 ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
                 //model.removePropertyChangeListener(this);
                 model = (Model) is.readObject();
                 //this.model.initSupport();
-                //model.addPropertyChangeListener(this);
+                view.addPropertyChangeListener(this);
+                model.addPropertyChangeListener(this);
                 view.update(model);
                 is.close();
             } else if (cmmd == "New") {
-                this.remove(view);
-                model = factory.makeModel();
-                view = new View(model);
-                view = factory.makeView(model);
-                view.update(model);
-                this.add(view);
-                view.setBackground(Color.GRAY);
-                SwingUtilities.updateComponentTreeUI(this);
+                // Warns the user of unsaved changes when starting new game
+                if(JOptionPane.showConfirmDialog(frame, "There are unsaved changes. \n" +
+                        "Are you sure you want to start over?", "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                                                           // If the user clicks yes
+                    this.remove(view);
+                    model = factory.makeModel();
+                    view = new View(model);
+                    view = factory.makeView(model);
+                    view.update(model);
+                    this.add(view);
+                    view.setBackground(Color.GRAY);
+                    SwingUtilities.updateComponentTreeUI(this);
+                }
 
             } else if (cmmd == "Quit") {
                 Utilities.saveChanges(model);

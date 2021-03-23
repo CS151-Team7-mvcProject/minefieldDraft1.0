@@ -1,161 +1,114 @@
 package mvc;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.*;
 
-public class AppPanel extends JPanel implements PropertyChangeListener, ActionListener {
+// how to generalize? are we suppose to have this?
+public class AppPanel extends JPanel implements PropertyChangeListener, ActionListener, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    protected AppFactory factory;
+    protected View view;
+    protected Model model;
+    protected JPanel controlPanel;
+    protected JFrame frame;
 
-	protected AppFactory factory;
-	protected View view;
-	protected Model model;
-	protected JPanel controlPanel;
-	protected JPanel buttonPanel;
-	protected JPanel boardPanel;
-	protected JFrame frame;
+    public static int FRAME_WIDTH = 500;
+    public static int FRAME_HEIGHT = 300;
 
-	public static int FRAME_WIDTH;
-	public static int FRAME_HEIGHT;
+    public AppPanel(AppFactory factory) {
+        this.factory = factory;
+        model = factory.makeModel();
+        view = factory.makeView(model);
+        controlPanel = new JPanel();
 
+        setLayout((new GridLayout(1, 2)));
+        add(controlPanel);
+        add(view);
 
-	//Creates all of the frames and panels needed to display the application.
-	//Gets all custom variables from implementing Factory class.
-	public AppPanel(AppFactory factory) {
-		this.factory = factory;
-		model = factory.makeModel();
-		view = factory.makeView(model);
+        controlPanel.setBackground(Color.WHITE);
+        view.setBackground(Color.GRAY);
 
-		FRAME_WIDTH = factory.getFrameSize(0);
-		FRAME_HEIGHT = factory.getFrameSize(1);
+        frame = new JFrame();
+        Container cp = frame.getContentPane();
+        cp.add(this);
+        frame.setJMenuBar(createMenuBar());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle(factory.getTitle());
+        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+    }
 
-		
-		controlPanel = new JPanel();
-		buttonPanel  = new JPanel();
-		frame 		 = new JFrame();
+    public void display() {
+        frame.setVisible(true);
+    }
 
-		//Setup for the JFrame
-		frame.setJMenuBar(createMenuBar());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle(factory.getTitle());
-		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		setLayout((new GridLayout(1, 2)));
-		add(controlPanel);
-		add(view);
+    protected JMenuBar createMenuBar() {
+        JMenuBar result = new JMenuBar();
+        // add file, edit, and help menus
+        JMenu fileMenu =
+                Utilities.makeMenu("File", new String[]{"New", "Save", "SaveAs", "Open", "Quit"}, this);
+        result.add(fileMenu);
 
-		//Setting background color for all panels
-		controlPanel.setBackground(factory.getBackgroundColor(0));
-		view.setBackground(factory.getBackgroundColor(1));
+        JMenu editMenu =
+                Utilities.makeMenu("Edit", factory.getEditCommands(), this);
+        result.add(editMenu);
 
-		//Creates the layout for the button panel.
-		GridLayout layout = new GridLayout
-				(factory.getButtonGridSize(0),
-						factory.getButtonGridSize(1));
-		layout.setHgap(factory.getButtonGap(0));
-		layout.setVgap(factory.getButtonGap(1));
+        JMenu helpMenu =
+                Utilities.makeMenu("Help", new String[]{"About", "Help"}, this);
+        result.add(helpMenu);
 
-		//Sets ButtonPanel layout and adds to ControlPanel
-		buttonPanel.setLayout(layout);
-		buttonPanel.setBackground(controlPanel.getBackground());
-		controlPanel.add(buttonPanel);
+        return result;
+    }
 
-		//Adds black border around view.
-		Border border = BorderFactory.createLineBorder(Color.BLACK);
-		view.setBorder(border);
-		
-		//???
-		Container cp = frame.getContentPane();
-		cp.add(this);
+    public void actionPerformed(ActionEvent e) {
+        try {
+            String cmmd = e.getActionCommand();
+            if (cmmd == "Save") {
+                //String fName = Utilities.ask("File Name?");
+                String fName = Utilities.getFileName(null, false);
+                ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
+                os.writeObject(model);
+                os.close();
+            } else if (cmmd == "SaveAs") {
+                Utilities.save(model, true);
+            } else if (cmmd == "Open") {
+                String fName = Utilities.getFileName(null, true);
+                ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
+                //model.removePropertyChangeListener(this);
+                model = (Model) is.readObject();
+                //this.model.initSupport();
+                //model.addPropertyChangeListener(this);
+                view.update(model);
+                is.close();
+            } else if (cmmd == "New") {
+                model = factory.makeModel();
+                view.update(model);
+            } else if (cmmd == "Quit") {
+                Utilities.saveChanges(model);
+                System.exit(1);
+            } else if (cmmd == "About") {
+                Utilities.inform(factory.about());
+            } else if (cmmd == "Help") {
+                Utilities.inform(factory.getHelp());
+            } else {
+                Command command = factory.makeEditCommand(model, cmmd);
+                command.execute();
+            }
+        } catch (Exception err) {
+            handleException(err);
+        }
+    }
 
-	}
+    public void propertyChange(PropertyChangeEvent evt) {
+        view.repaint();
+        firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
+    }
 
-
-	//Creates the menu bar for the frame of the application.
-	//Gets all subtitle names from implementing Factory class.
-	protected JMenuBar createMenuBar() {
-		JMenuBar result = new JMenuBar();
-
-		//ADD FILE MENU AND SUBMENUS
-		JMenu fileMenu = Utilities.makeMenu("File", factory.getFileTitles(), this);
-		result.add(fileMenu);
-
-		//ADD EDIT MENU AND SUBMENUS
-		JMenu editMenu = Utilities.makeMenu("Edit", factory.getEditTitles(), this);
-		result.add(editMenu);
-
-		//ADD HELP MENU AND SUBMENUS
-		JMenu helpMenu = Utilities.makeMenu("Help", factory.getHelpTitles(), this);
-		result.add(helpMenu);
-
-		//ADD USER DEFINED MENU AND SUBMENUS???
-		//
-		//
-		//
-
-		return result;
-	}
-
-
-	//Defines the action performed based on the user input.
-	//If input is not one of the basic utility commands, an
-	//appropriate command object is created.
-	public void actionPerformed(ActionEvent e) {
-		try {
-			String cmmd = e.getActionCommand();
-
-			//SAVE
-			if 		(cmmd == "Save") 	{Utilities.save(model, false);}
-
-			//SAVEAS
-			else if (cmmd == "SaveAs")  {Utilities.save(model, true);} 
-
-			//OPEN
-			else if (cmmd == "Open")    {Utilities.open(model);}
-
-			//QUIT
-			else if (cmmd == "Quit")  {Utilities.quit(model);}
-
-			//ABOUT
-			else if (cmmd == "About") {Utilities.inform(factory.getAbout());} 
-
-			//HELP
-			else if (cmmd == "Help")  {Utilities.inform(factory.getHelp());} 
-
-			//NEW
-			else if (cmmd == "New") {
-				model = factory.makeModel();
-				view.update(model);
-			}
-
-			//MAKE NEW COMMAND
-			else {
-				Command command = factory.makeNewCommand(model, cmmd);
-				command.execute();
-			}
-		} 
-		catch (Exception err) {
-			handleException(err);
-		}
-	}
-
-
-
-
-	public void display() {
-		frame.setVisible(true);
-	}
-
-	public void propertyChange(PropertyChangeEvent evt) {
-		updateUI();
-	}
-
-	protected void handleException(Exception e) {
-		Utilities.error(e);
-	}
+    protected void handleException(Exception e) {
+        Utilities.error(e);
+    }
 }

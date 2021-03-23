@@ -1,53 +1,54 @@
 package minefieldMVC;
 
-import mvc.*;
+import mvc.Command;
+import mvc.Model;
 
-public class MoveCommand extends Command {
+import java.io.Serializable;
 
-	String heading;
+public class MoveCommand extends Command implements Serializable {
 
-	public MoveCommand(Model model, String heading) {
-		super(model);
-		this.heading = heading;
-	}
+    String heading;
 
-	public void execute() {
-		Minefield m = (Minefield) model;
+    public MoveCommand(Model model, String heading) {
+        super(model);
+        this.heading = heading;
+    }
 
-		switch(heading) {
-			case "N":{
-				m.north();
-				break;
-			}
-			case "E":{
-				m.east();
-				break;
-			}
-			case "W":{
-				m.west();
-				break;
-			}
-			case "S":{
-				m.south();
-				break;
-			}
-			case "NE":{
-				m.northEast();
-				break;
-			}
-			case "NW":{
-				m.northWest();
-				break;
-			}
-			case "SE":{
-				m.southEast();
-				break;
-			}
-			case "SW":{
-				m.southWest();
-				break;
-			}
-		
-		}
-	}
+    public void execute() throws Exception {
+        Minefield m = (Minefield) model;
+        switch (heading) {
+            case "N": {
+                m.n();
+                break;
+            }
+            case "E": {
+                m.e();
+                break;
+            }
+            case "W": {
+                m.w();
+                break;
+            }
+            case "S": {
+                m.s();
+                break;
+            }
+            case "NE": {
+                m.ne();
+                break;
+            }
+            case "NW": {
+                m.nw();
+                break;
+            }
+            case "SE": {
+                m.se();
+                break;
+            }
+            case "SW": {
+                m.sw();
+                break;
+            }
+        }
+    }
 }

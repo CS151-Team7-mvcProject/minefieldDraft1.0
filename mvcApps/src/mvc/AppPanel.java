@@ -88,8 +88,13 @@ public class AppPanel extends JPanel implements PropertyChangeListener, ActionLi
                 view.update(model);
                 is.close();
             } else if (cmmd == "New") {
+                this.remove(view);
                 model = factory.makeModel();
+                view = new View(model);
+                view = factory.makeView(model);
                 view.update(model);
+                this.add(view);
+                SwingUtilities.updateComponentTreeUI(this);
             } else if (cmmd == "Quit") {
                 Utilities.saveChanges(model);
                 System.exit(1);
